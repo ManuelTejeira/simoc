@@ -24,10 +24,14 @@ def main(env=os.environ):
         "node_dev_dir": env.get('NODE_DEV_DIR', ''),
         "valid_referers": env.get('VALID_REFERERS', ''),
     }
+
+    print(os.getcwd()) # Check the current working directory
+
     nginx_jinja = Path('nginx/simoc_nginx.conf.jinja')
     docker_compose_jinja = Path('docker-compose.mysql.yml.jinja')
     print('Generating config files:')
     for jinja_file in [nginx_jinja, docker_compose_jinja]:
+        print(f"Looking for template: {jinja_file}")  # Add this line
         temp_file = j2_env.get_template(str(jinja_file))
         conf_file = jinja_file.parent / jinja_file.stem  # remove .jinja suffix
         with open(conf_file, 'w') as f:
